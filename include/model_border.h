@@ -4,6 +4,8 @@
 #include "Collidable.h"
 
 class BorderModel : public Collidable {
+public:
+    int isCollided(double x, double y);
 };
 
 #endif //BREAKOUT_BORDER_H

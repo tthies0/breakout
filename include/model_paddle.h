@@ -10,6 +10,7 @@ public:
     void movePaddleLeft(); // moves the paddle one step closer to the left side (if possible)
     void movePaddleRight(); // moves the paddle one step closer to the right side (if possible)
 
+    int isCollided(double x, double y);
 private:
     int position; // position of paddle (left side)
     int width = 5; // width of paddle
