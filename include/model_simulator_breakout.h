@@ -7,15 +7,10 @@ class BreakoutModel : public Observable { // PongModel class inherits from Obser
 public:
     BreakoutModel(); // constructor
 
-    int getGameWidth(); // returns the game's width
-    int getGameHeight(); // returns the game's height
-
     void simulate_game_step(); // simulates one step of the Pong game
 
-private:
-    int width = 40; // game width
-    int height = 24; // game height
-    int dir = 1; // ball direction
+    static const int gameWidth = 40; // game width
+    static const int gameHeight = 24; // game height
 };
 
 #endif // end of header file

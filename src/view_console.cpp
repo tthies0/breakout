@@ -1,4 +1,5 @@
 #include "view_console.h"
+#include "model_simulator_breakout.h"
 #include <ncurses.h>
 #include <stdlib.h>
 
@@ -19,16 +20,16 @@ void ConsoleView::update() {
     refresh();
 
     // Example for building the game view
-    for(int i = 0; i < model->getGameWidth(); i++) {
+    for(int i = 0; i < BreakoutModel::gameWidth; i++) {
         mvaddch(0, i, wallTexture);
     }
-    for(int i = 0; i < model->getGameHeight(); i++) {
+    for(int i = 0; i < BreakoutModel::gameHeight; i++) {
         mvaddch(i, 0, wallTexture);
-        mvaddch(i, model->getGameWidth() - 1, wallTexture);
+        mvaddch(i, BreakoutModel::gameWidth - 1, wallTexture);
     }
 
     // Show points of player
-    mvprintw(1, model->getGameWidth() / 2 / 2, "%i", 0);
+    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", 0);
 
     // Draw different objects. 
 };
