@@ -11,7 +11,7 @@ LDFLAGS = -L/usr/local/lib
 LDLIBS = -lncurses
 
 SRCDIR := ./src
-BREAKOUT_OBJECTS := controller_console.o model_simulator_breakout.o observer.o view_console.o main.o
+BREAKOUT_OBJECTS := controller_console.o model_simulator_breakout.o observer.o view_console.o main.o model_ball.o model_border.o model_brick.o
 
 breakout: $(BREAKOUT_OBJECTS)
 	$(CXX) $^ -o $@ $(LDLIBS)
