@@ -1,4 +1,5 @@
 #include "controller_console.h"
+#include <iostream>
 
 ConsoleController::ConsoleController(BreakoutModel* model, bool touchpad_mode) {
 	this->model = model;
@@ -6,22 +7,36 @@ ConsoleController::ConsoleController(BreakoutModel* model, bool touchpad_mode) {
 };
 
 Controller::KeyAction ConsoleController::getInput() {
-    wchar_t ch = getch();
     if(touchpad_mode){
-        return action_quit;
+        handleTouchpad();
     }
-
-    if(ch = KEY_LEFT){
+    wchar_t ch = getch();
+    switch (ch)
+    {
+    case 'q':
+        return action_quit;
+    case KEY_LEFT:
         return action_left;
-    }
-    if(ch = KEY_RIGHT){
+    case KEY_RIGHT:
         return action_right;
-    }
-    if(ch = 'q'){
-        return action_quit;
-    }
-    if(ch = ' '){
+    case ' ':
         return action_shoot;
+    default:
+        return no_action;
     }
     
 };
+
+Controller::KeyAction ConsoleController::handleTouchpad(){
+    mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);
+    MEVENT event;
+    wchar_t mo = getch();
+    if(mo!=KEY_MOUSE){
+        return no_action;
+    }
+    if(getmouse(&event) == OK && event.bstate & BUTTON1_PRESSED){
+        printf("AAAAAAAAAA");
+    }
+    return action_quit;
+
+}

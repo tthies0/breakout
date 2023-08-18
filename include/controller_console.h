@@ -8,7 +8,7 @@ class Controller
 {
 public:
     // You should consider how to keep this as general as possible. And should set the type accordingly.
-    enum KeyAction{action_right, action_left, action_shoot, action_quit};
+    enum KeyAction{action_right, action_left, action_shoot, action_quit, no_action};
     virtual KeyAction getInput() = 0; // declare a pure virtual function for getting user input
 };
 
@@ -16,6 +16,8 @@ class ConsoleController : public Controller // derive ConsoleController class fr
 {
     BreakoutModel* model; // pointer to the BreakoutModel object
     bool touchpad_mode;
+
+    KeyAction handleTouchpad();
 
 public:
     ConsoleController(BreakoutModel* model, bool touchpad_mode); // constructor that takes a BreakoutModel pointer as parameter

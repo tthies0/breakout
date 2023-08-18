@@ -9,7 +9,7 @@
 int main() {
     BreakoutModel* breakout = new BreakoutModel();
     ConsoleView* view = new ConsoleView(breakout);
-    ConsoleController* controller = new ConsoleController(breakout);
+    ConsoleController* controller = new ConsoleController(breakout, false);
     wchar_t ch = '\0';
     while(ch != 'q') {
         ch = controller->getInput();
