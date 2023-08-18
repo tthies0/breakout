@@ -9,9 +9,9 @@
 int main() {
     BreakoutModel* breakout = new BreakoutModel();
     ConsoleView* view = new ConsoleView(breakout);
-    ConsoleController* controller = new ConsoleController(breakout);
-    wchar_t ch = '\0';
-    while(ch != 'q') {
+    ConsoleController* controller = new ConsoleController(breakout, false);
+    Controller::KeyAction ch = Controller::no_action;
+    while(ch != Controller::action_quit){
         ch = controller->getInput();
         breakout->simulate_game_step();
     }

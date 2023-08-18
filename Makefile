@@ -20,4 +20,5 @@ breakout: $(BREAKOUT_OBJECTS)
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $^ -o $@
 
 clean:
-	rm *.o breakout
+	test ! -f breakout || rm breakout
+	rm *.o
