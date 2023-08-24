@@ -19,7 +19,7 @@ public:
 private:
     double _x; // current x-position
     double _y; // current y-position
-    double _direction; // current direction from 0.0 to 1.0 (0 = facing up)
+    double _direction; // current direction from 0.0 to 2 Pi (0 = 2 Pi = facing right)
     double _speed; // current speed
 };
 

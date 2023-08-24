@@ -23,11 +23,11 @@ void Ball::setX(double x){
     _x = x;
 }
 
-void Ball::setX(double y){
+void Ball::setY(double y){
     _y = y;
 }
 
-void Ball::setX(double direction){
+void Ball::setDirection(double direction){
     _direction = direction;
 }
 

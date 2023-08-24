@@ -5,7 +5,7 @@
 
 class SpecialBrickModel : public Brick {
 public:
-    SpecialBrickModel(int width, int height, int x, int y, BrickState state = normal) : Brick(width, height, x, y, state){}; // sets width, position and amount of hits needed
+    SpecialBrickModel(int width, int height, int x, int y, double rotation, BrickState state = normal) : Brick(width, height, x, y, rotation, state){}; // sets width, position and amount of hits needed
 
 private:
 };

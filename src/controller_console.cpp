@@ -1,4 +1,5 @@
 #include "controller_console.h"
+#include <ncurses.h> // include the ncurses library for console input/output
 #include <iostream>
 
 ConsoleController::ConsoleController(BreakoutModel* model, bool touchpad_mode) {
