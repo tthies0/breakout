@@ -12,6 +12,9 @@ double Collidable::getX(){
 double Collidable::getY(){
     return _y;
 }
+double Collidable::getRotation(){
+    return _rotation;
+}
 
 void Collidable::setWidth(double width){
     _width = width;
@@ -28,3 +31,5 @@ void Collidable::setY(double y){
 void Collidable::setRotation(double rotation){
     _rotation = rotation;
 }
+
+void Collidable::handleCollision(){}

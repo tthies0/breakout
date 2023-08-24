@@ -5,17 +5,18 @@
 #include <stdlib.h>
 #include <math.h>
 #include "paddle.h"
+#include "collidable.h"
 
 BreakoutModel::BreakoutModel()
 {
     _state = running;
-    _paddle = Paddle(BreakoutModel::gameWidth / 2);
+    _paddle = new Paddle{5., 1., BreakoutModel::gameWidth / 2, 2., 0.};
 };
 
 void BreakoutModel::simulate_game_step()
 {
 
-    // Implement game dynamics.
+    
     notifyUpdate();
 };
 
@@ -33,14 +34,14 @@ BreakoutModel::Collision *BreakoutModel::checkCollisionChangeState(Ball ball)
 {
 
     Collision *nearestCollision = nullptr;
-    for (Collidable collidable : _collidables)
+    for (Brick brick : _bricks)
     {
         if (nearestCollision == nullptr)
         {
-            nearestCollision = calcIntersect(ball, collidable);
+            nearestCollision = calcIntersect(ball, brick);
             continue;
         }
-        Collision *temp = calcIntersect(ball, collidable);
+        Collision *temp = calcIntersect(ball, brick);
         if (temp->distance < nearestCollision->distance)
         {
             nearestCollision = temp;
@@ -48,10 +49,11 @@ BreakoutModel::Collision *BreakoutModel::checkCollisionChangeState(Ball ball)
     }
     if (nearestCollision == nullptr)
     {
-        return;
+        return nullptr;
     }
     nearestCollision->collidedObject->handleCollision();
     reflectBall(ball, *nearestCollision);
+    return nearestCollision;
 }
 
 BreakoutModel::Collision *BreakoutModel::calcIntersect(Ball ball, Collidable collidable)
@@ -80,7 +82,8 @@ BreakoutModel::Collision *BreakoutModel::calcIntersect(Ball ball, Collidable col
     // left:
     if (intersect(ball_currentX, ball_currentY, ball_nextX, ball_nextY, blX, blY, tlX, tlY))
     {
-        nearestIntersect = &getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, blX, blY, tlX, tlY);
+        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, blX, blY, tlX, tlY);
+        nearestIntersect = &temp;
         nearestIntersect->surfaceNormal = M_PI + collidable.getRotation();
     }
     // top:
@@ -138,6 +141,8 @@ BreakoutModel::Collision BreakoutModel::getIntersection(double Ax, double Ay, do
     double collisionY = Ay + distOnAB * rY;
 
     Collision collision{collisionX, collisionY, 0., distOnAB, nullptr};
+
+    return collision;
 }
 
 // From https://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/

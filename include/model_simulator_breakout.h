@@ -14,8 +14,10 @@ public:
 
     void simulate_game_step(); // simulates one step of the Pong game
 
-    static const double gameWidth = 40; // game width
-    static const double gameHeight = 24; // game height
+    static constexpr double gameWidth = 40; // game width
+    static constexpr double gameHeight = 24; // game height
+
+    std::vector<Brick> getBricks();
 
 private:
     enum GameState{running, lost};
@@ -30,9 +32,9 @@ private:
         double distance;
         Collidable* collidedObject;
     };
-    std::vector<Collidable> _collidables;
+    std::vector<Brick> _bricks;
     std::vector<Ball> _balls;
-    Paddle _paddle;
+    Paddle* _paddle;
 
     void checkHandlePaddleCollision(); //Checks for and handle collision with paddle for every ball
     void reflectBall(Ball ball, Collision collision); //Reflects the ball given a Collision
