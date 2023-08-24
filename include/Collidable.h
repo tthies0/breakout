@@ -3,8 +3,18 @@
 
 class Collidable {
 public:
-    virtual int isCollided(double x, double y) = 0; // tests if the current ball position collides with the position of the object
-                                  // 0: no, 1: to a wall, 2: to a ceiling, 3: ball left the field
+    Collidable(double width, double height, double x, double y);
+
+    double getWidth();
+    double getHeight();
+    double getX();
+    double getY();
+
+private:
+    double _width;
+    double _height;
+    double _x;
+    double _y;
 };
 
 #endif //BREAKOUT_COLLIDABLE_H
