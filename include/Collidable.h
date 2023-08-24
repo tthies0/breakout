@@ -11,11 +11,11 @@ public:
     double getX();
     double getY();
     double getRotation();
-    void setWidth(double width) : _width(width){};
-    void setHeight(double height) : _height(height){};
-    void setX(double x) : _x(x){};
-    void setY(double y) : _y(y){};
-    void setRotation(double rotation) : _rotation(rotation){};
+    void setWidth(double width);
+    void setHeight(double height);
+    void setX(double x);
+    void setY(double y);
+    void setRotation(double rotation);
 
     void handleCollision();
 
@@ -24,7 +24,7 @@ private:
     double _height;
     double _x;
     double _y;
-    double _rotation //Rotation around bottom left corner, from 0 to 2 Pi
+    double _rotation; //Rotation around bottom left corner, from 0 to 2 Pi
 };
 
 #endif //BREAKOUT_COLLIDABLE_H
