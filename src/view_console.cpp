@@ -30,7 +30,7 @@ void ConsoleView::update() {
         mvaddch(i, BreakoutModel::gameWidth - 1, wallTexture);
     }
     // Show points of player
-    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", model->getBalls().at(0).getX());
+    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", (int)model->getBricks().at(1).getState());
 
     // Draw different objects.
 
@@ -39,8 +39,7 @@ void ConsoleView::update() {
     }
 
     for(Brick brick : model->getBricks()){
-        //mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
-        mvprintw(BreakoutModel::gameHeight-brick.getY(), brick.getX(), (char)(int)brick.getState());
+        mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
     }
 
     for(int i = 0; i<model->getPaddle().getWidth(); i++){
