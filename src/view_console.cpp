@@ -40,7 +40,7 @@ void ConsoleView::update() {
 
     for(Brick brick : model->getBricks()){
         //mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
-        mvprintw(BreakoutModel::gameHeight-brick.getY(), brick.getX(), brick.getState());
+        mvprintw(BreakoutModel::gameHeight-brick.getY(), brick.getX(), (char)(int)brick.getState());
     }
 
     for(int i = 0; i<model->getPaddle().getWidth(); i++){
