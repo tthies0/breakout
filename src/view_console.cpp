@@ -30,7 +30,7 @@ void ConsoleView::update() {
         mvaddch(i, BreakoutModel::gameWidth - 1, wallTexture);
     }
     // Show points of player
-    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", model->getBricks().at(0).getState());
+    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", model->getBalls().at(0).getX());
 
     // Draw different objects.
 
