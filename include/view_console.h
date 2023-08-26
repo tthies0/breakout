@@ -22,7 +22,7 @@ private:
     char wallTexture = 'x';  // Wall texture character
     char ballTexture = 'o';
     char brickTexture = '$';
-    char paddleTexture = '$';
+    char paddleTexture = '_';
 
     void setup_view();  // Function to set up the view
 };

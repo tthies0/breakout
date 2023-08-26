@@ -7,7 +7,7 @@ ConsoleController::ConsoleController(BreakoutModel* model, bool touchpad_mode) {
     this->touchpad_mode = touchpad_mode;
 };
 
-Controller::KeyAction ConsoleController::getInput() {
+Key::Action ConsoleController::getInput() {
     if(touchpad_mode){
         handleTouchpad();
     }
@@ -15,29 +15,29 @@ Controller::KeyAction ConsoleController::getInput() {
     switch (ch)
     {
     case 'q':
-        return action_quit;
+        return Key::action_quit;
     case KEY_LEFT:
-        return action_left;
+        return Key::action_left;
     case KEY_RIGHT:
-        return action_right;
+        return Key::action_right;
     case ' ':
-        return action_shoot;
+        return Key::action_shoot;
     default:
-        return no_action;
+        return Key::no_action;
     }
     
 };
 
-Controller::KeyAction ConsoleController::handleTouchpad(){
+Key::Action ConsoleController::handleTouchpad(){
     mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);
     MEVENT event;
     wchar_t mo = getch();
     if(mo!=KEY_MOUSE){
-        return no_action;
+        return Key::no_action;
     }
     if(getmouse(&event) == OK && event.bstate & BUTTON1_PRESSED){
         printf("AAAAAAAAAA");
     }
-    return action_quit;
+    return Key::action_quit;
 
 }

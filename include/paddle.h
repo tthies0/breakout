@@ -5,13 +5,13 @@
 
 class Paddle : public Collidable{
 public:
-    Paddle(double width, double height, double x, double y, double rotation)
-        : Collidable(width,height,x,y,rotation){};
+    Paddle(double width, double height, double x, double y, double rotation, double speed)
+        : Collidable(width,height,x,y,rotation), _speed(speed){};
     double getPaddleSpeed();
     void setPaddleSpeed(double speed);
 
 private:
-    double _speed = 2; 
+    double _speed; 
 };
 
 #endif //BREAKOUT_MODEL_PADDLE_H

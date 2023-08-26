@@ -10,8 +10,8 @@ int main() {
     BreakoutModel* breakout = new BreakoutModel();
     ConsoleView* view = new ConsoleView(breakout);
     ConsoleController* controller = new ConsoleController(breakout, false);
-    Controller::KeyAction ch = Controller::no_action;
-    while(ch != Controller::action_quit){
+    Key::Action ch = Key::no_action;
+    while(ch != Key::action_quit){
         ch = controller->getInput();
         breakout->simulate_game_step(ch);
     }
