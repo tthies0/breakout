@@ -39,10 +39,8 @@ void ConsoleView::update() {
     }
 
     for(Brick brick : model->getBricks()){
-        if(brick.getState()!=Brick::normal){
-            continue;
-        }
-        mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
+        //mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
+        mvprintw(BreakoutModel::gameHeight-brick.getY(), brick.getX(), brick.getState());
     }
 
     for(int i = 0; i<model->getPaddle().getWidth(); i++){
