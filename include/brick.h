@@ -6,7 +6,7 @@
 class Brick : public Collidable {
 public:
     enum BrickState{broken, normal};
-    Brick(double width, double height, double x, double y, double rotation, int state) : Collidable(width, height, x, y, rotation){}; // sets width and position of brick
+    Brick(double width, double height, double x, double y, double rotation, int state) : Collidable(width, height, x, y, rotation), _state(state){}; // sets width and position of brick
     
     virtual void handleCollision();
     int getState();
