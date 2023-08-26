@@ -8,6 +8,7 @@ ConsoleView::ConsoleView(BreakoutModel* model) {
 	setup_view();
 	this->model = model;
 	this->model->addObserver(this);
+    this->test = 1;
 };
 
 ConsoleView::~ConsoleView() {
@@ -29,9 +30,23 @@ void ConsoleView::update() {
     }
 
     // Show points of player
-    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", 0);
+    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", (int)model->getBalls().at(0).getX());
 
-    // Draw different objects. 
+    // Draw different objects.
+
+    for(Ball& ball : model->getBalls()){
+        mvaddch(BreakoutModel::gameHeight-ball.getY(),ball.getX(), ballTexture);
+    }
+
+    for(Brick& brick : model->getBricks()){
+        mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
+    }
+
+    for(int i = 0; i<model->getPaddle().getWidth(); i++){
+        mvaddch(BreakoutModel::gameHeight-model->getPaddle().getY(), model->getPaddle().getX()+i, paddleTexture);
+    }
+
+
 };
 
 void ConsoleView::setup_view() {

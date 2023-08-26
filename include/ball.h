@@ -3,23 +3,24 @@
 
 class Ball{
 public:
-    Ball(double x, double y, double direction, double speed); // constructor for start position and direction
-
-    void resetBall(double x, double y, double direction, double speed); // reset ball position and direction
+    Ball(double x, double y, double directionX, double directionY, double speed); // constructor for start position and direction
 
     double getX(); // get current x-position
     double getY(); // get current y-position
-    double getDirection(); // get current direction
+    double getDirectionX(); // get current direction
+    double getDirectionY(); // get current direction
     double getSpeed(); // get current speed
     void setX(double x); // set current x-position
     void setY(double y); // set current y-position
-    void setDirection(double direction); // set current direction
+    void setDirectionX(double direction); // set current direction
+    void setDirectionY(double direction); // set current direction
     void setSpeed(double speed); // set current speed
 
 private:
     double _x; // current x-position
     double _y; // current y-position
-    double _direction; // current direction from 0.0 to 2 Pi (0 = 2 Pi = facing right)
+    double _directionX; // current direction X part
+    double _directionY; // current direction Y part(always normal vector)
     double _speed; // current speed
 };
 

@@ -8,6 +8,8 @@ class ConsoleView : public Observer  // Inheriting from Observer class
 {
     BreakoutModel* model;  // Pointer variable of BreakoutModel class
 
+    int test;
+
 public:
     ConsoleView(BreakoutModel* model);  // Constructor of ConsoleView class
 
@@ -17,7 +19,10 @@ public:
 
 private:
     // Textures
-    char wallTexture = 'X';  // Wall texture character
+    char wallTexture = 'x';  // Wall texture character
+    char ballTexture = 'o';
+    char brickTexture = '$';
+    char paddleTexture = '$';
 
     void setup_view();  // Function to set up the view
 };

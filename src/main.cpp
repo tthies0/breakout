@@ -13,7 +13,7 @@ int main() {
     Controller::KeyAction ch = Controller::no_action;
     while(ch != Controller::action_quit){
         ch = controller->getInput();
-        breakout->simulate_game_step();
+        breakout->simulate_game_step(ch);
     }
     delete breakout;
     delete view;
