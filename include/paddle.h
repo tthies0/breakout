@@ -9,6 +9,7 @@ public:
         : Collidable(width,height,x,y,rotation), _speed(speed){};
     double getPaddleSpeed();
     void setPaddleSpeed(double speed);
+    virtual void handleCollision();
 
 private:
     double _speed; 

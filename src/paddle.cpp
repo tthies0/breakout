@@ -6,3 +6,7 @@ void Paddle::setPaddleSpeed(double speed){
 double Paddle::getPaddleSpeed(){
     return _speed;
 }
+
+void Paddle::handleCollision(){
+    this->setY(this->getY()+1);
+}

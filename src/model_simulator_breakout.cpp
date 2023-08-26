@@ -17,14 +17,7 @@ BreakoutModel::BreakoutModel()
     Ball c{15.1, 5, sqrt(.5), sqrt(.5), .2};
     _balls.emplace_back(c);
 
-    Brick bb{1, 1, 20, 10, 0, 0};
-    _bricks.emplace_back(bb);
-    _balls.at(0).setX(_bricks.at(0).getState());
-    for(int i = 0; i<3; i++){
-        for(int j = 0; j<10; j++){
-            _bricks.emplace_back(Brick{1, 1, 2 * j + 5, 2 * i + 10, 0, 0});
-        }
-    }
+    _bricks.emplace_back(Brick{9.9, 4.9, 40, 15, 0, 1});
     
 };
 
@@ -58,10 +51,6 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
         ball.setX(ball.getX() + ball.getSpeed() * ball.getDirectionX());
         ball.setY(ball.getY() + ball.getSpeed() * ball.getDirectionY());
     }
-
-    _balls.at(0).setX(_bricks.at(0).getState());
-
-    
     notifyUpdate();
 };
 
@@ -124,7 +113,7 @@ BreakoutModel::Collision BreakoutModel::checkCollisionChangeState(Ball& ball)
     Collision nearestCollision{0,0,0,0,0,nullptr};
     for (Brick& brick : _bricks)
     {
-        if(brick.getState()==Brick::broken){
+        if(brick.getState()==0){
             continue;
         }
         if (nearestCollision.collidedObject == nullptr)
@@ -175,14 +164,14 @@ BreakoutModel::Collision BreakoutModel::calcIntersect(Ball& ball, Collidable& co
     // left:
     if (intersect(ball_currentX, ball_currentY, ball_nextX, ball_nextY, blX, blY, tlX, tlY))
     {
-        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, blX, blY, tlX, tlY, collidable);
+        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, blX, blY, tlX, tlY, &collidable);
         nearestIntersect = temp;
     }
 
     // top:
     if (intersect(ball_currentX, ball_currentY, ball_nextX, ball_nextY, tlX, tlY, trX, trY))
     {
-        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, tlX, tlY, trX, trY, collidable);
+        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, tlX, tlY, trX, trY, &collidable);
         if (nearestIntersect.collidedObject == nullptr || temp.distance < nearestIntersect.distance)
         {
             nearestIntersect = temp;
@@ -191,7 +180,7 @@ BreakoutModel::Collision BreakoutModel::calcIntersect(Ball& ball, Collidable& co
     // right:
     if (intersect(ball_currentX, ball_currentY, ball_nextX, ball_nextY, trX, trY, brX, brY))
     {
-        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, trX, trY, brX, brY, collidable);
+        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, trX, trY, brX, brY, &collidable);
         if (nearestIntersect.collidedObject == nullptr || temp.distance < nearestIntersect.distance)
         {
             nearestIntersect = temp;
@@ -200,7 +189,7 @@ BreakoutModel::Collision BreakoutModel::calcIntersect(Ball& ball, Collidable& co
     // bottom:
     if (intersect(ball_currentX, ball_currentY, ball_nextX, ball_nextY, brX, brY, blX, blY))
     {
-        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, brX, brY, blX, blY, collidable);
+        Collision temp = getIntersection(ball_currentX, ball_currentY, ball_nextX, ball_nextY, brX, brY, blX, blY, &collidable);
         if (nearestIntersect.collidedObject == nullptr || temp.distance < nearestIntersect.distance)
         {
             nearestIntersect = temp;
@@ -214,7 +203,7 @@ BreakoutModel::Collision BreakoutModel::calcIntersect(Ball& ball, Collidable& co
 }
 
 // Calculates the intersections of two lines, returns Collision with collision coordinates and normal from the CD segment
-BreakoutModel::Collision BreakoutModel::getIntersection(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy, Collidable collidedObject)
+BreakoutModel::Collision BreakoutModel::getIntersection(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy, Collidable* collidedObject)
 {
     double rX = Bx - Ax;
     double rY = By - Ay;
@@ -230,7 +219,7 @@ BreakoutModel::Collision BreakoutModel::getIntersection(double Ax, double Ay, do
     double collisionX = Ax + distOnAB * rX;
     double collisionY = Ay + distOnAB * rY;
 
-    Collision collision{collisionX, collisionY, -sY, sX, distOnAB, &collidedObject};
+    Collision collision{collisionX, collisionY, -sY, sX, distOnAB, collidedObject};
 
     return collision;
 }

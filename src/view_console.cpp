@@ -17,10 +17,11 @@ ConsoleView::~ConsoleView() {
 };
 
 void ConsoleView::update() {
+
     // libncurses standard loop calls
     erase();
     refresh();
-
+    
     // Example for building the game view
     for(int i = 0; i < BreakoutModel::gameWidth; i++) {
         mvaddch(0, i, wallTexture);
@@ -30,16 +31,27 @@ void ConsoleView::update() {
         mvaddch(i, BreakoutModel::gameWidth - 1, wallTexture);
     }
     // Show points of player
-    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", (int)model->getBricks().at(1).getState());
+    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", 1);
 
     // Draw different objects.
-
+    
     for(Ball ball : model->getBalls()){
         mvaddch(BreakoutModel::gameHeight-ball.getY(),ball.getX(), ballTexture);
     }
 
     for(Brick brick : model->getBricks()){
-        mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX(), brickTexture);
+        if(brick.getState()==0){
+            continue;
+        }
+        for(int i = 0; i<brick.getWidth(); i++){
+            mvaddch(BreakoutModel::gameHeight-brick.getY(),brick.getX()+i, brickTexture);
+            mvaddch(BreakoutModel::gameHeight-brick.getY()-brick.getHeight(),brick.getX()+i, brickTexture);
+        }
+        for(int i = 0; i<brick.getHeight(); i++){
+            mvaddch(BreakoutModel::gameHeight-brick.getY()-i,brick.getX(), brickTexture);
+            mvaddch(BreakoutModel::gameHeight-brick.getY()-i, brick.getX()+brick.getWidth(), brickTexture);
+        }
+        
     }
 
     for(int i = 0; i<model->getPaddle().getWidth(); i++){

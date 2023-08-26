@@ -49,7 +49,7 @@ private:
     Collision calcIntersect(Ball& ball, Collidable& collidable); //Calculates the Intersection of Ball direction and a single Collidable
     bool intersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy);//Checks if two line segments intersect
     bool ccw(double Ax, double Ay, double Bx, double By, double Cx, double Cy);
-    Collision getIntersection(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy, Collidable collidedObject);// gets the intersection point of two lines
+    Collision getIntersection(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy, Collidable* collidedObject);// gets the intersection point of two lines
 };
 
 #endif // end of header file
