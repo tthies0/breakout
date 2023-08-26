@@ -17,14 +17,12 @@ BreakoutModel::BreakoutModel()
     Ball c{15.1, 5, sqrt(.5), sqrt(.5), .2};
     _balls.emplace_back(c);
 
-    Brick bb{1, 1, 20, 10, 0, Brick::broken};
+    Brick bb{1, 1, 20, 10, 0, 0};
     _bricks.emplace_back(bb);
-    bb.handleCollision();
-    bb.setState(Brick::broken);
     _balls.at(0).setX(_bricks.at(0).getState());
     for(int i = 0; i<3; i++){
         for(int j = 0; j<10; j++){
-            _bricks.emplace_back(Brick{1, 1, 2 * j + 5, 2 * i + 10, 0, Brick::broken});
+            _bricks.emplace_back(Brick{1, 1, 2 * j + 5, 2 * i + 10, 0, 0});
         }
     }
     
@@ -60,6 +58,9 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
         ball.setX(ball.getX() + ball.getSpeed() * ball.getDirectionX());
         ball.setY(ball.getY() + ball.getSpeed() * ball.getDirectionY());
     }
+
+    _balls.at(0).setX(_bricks.at(0).getState());
+
     
     notifyUpdate();
 };

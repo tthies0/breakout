@@ -1,14 +1,14 @@
 #include "brick.h"
 
 
-Brick::BrickState Brick::getState(){
+int Brick::getState(){
     return _state;
 }
 
-void Brick::setState(BrickState state){
+void Brick::setState(int state){
     _state = state;
 }
 
 void Brick::handleCollision(){
-    _state = Brick::broken;
+    _state = 0;
 }
