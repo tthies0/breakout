@@ -3,6 +3,8 @@
 #include "model_simulator_breakout.h"
 // #include <ncurses.h>
 #include <stdlib.h>
+#include <cstdlib>
+#include <ctime>
 #include <math.h>
 #include "paddle.h"
 #include "collidable.h"
@@ -10,15 +12,26 @@
 
 BreakoutModel::BreakoutModel()
 {
+    srand(static_cast <unsigned> (time(0)));
+    
+
     _state = running;
-    _paddle = new Paddle{15, 1, BreakoutModel::gameWidth / 2, 1, 0, 4};
+    _paddle = new Paddle{30, 1, BreakoutModel::gameWidth / 2, 1, 0, 4};
     Ball b{10, 10, 0, 1, 0};
     _balls.emplace_back(b);
 
     
-    for(int i = 0; i<10; i++){
-        for(int j = 0; j<3; j++){
-           _bricks.emplace_back(Brick{4.999, 2.999, i*5, j*3+8, 0, 1}); 
+    for(int i = 0; i<16; i++){
+        for(int j = 0; j<4; j++){
+            int state = 1;
+            double randomFloat = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+            if(randomFloat<.1){
+                state=3;
+            }
+            if(randomFloat>.9){
+                state=2;
+            }
+           _bricks.emplace_back(Brick{4.999, 2, i*5, j*3+13, 0, state}); 
         }
     }
     
@@ -26,6 +39,11 @@ BreakoutModel::BreakoutModel()
 
 void BreakoutModel::simulate_game_step(Key::Action ch)
 {
+    int highestBall = 0;
+    if(_state!=running){
+        return;
+    }
+
     if(ch == Key::action_right){
         _paddle->setX(_paddle->getX() + _paddle->getPaddleSpeed());
     }
@@ -33,6 +51,8 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
         _paddle->setX(_paddle->getX() - _paddle->getPaddleSpeed());
     }
     for(Ball& ball : _balls){
+        highestBall = fmax(highestBall, ball.getY());
+
         if(ball.getSpeed() == 0.){
             ball.setX(_paddle->getX() + _paddle->getWidth()/2);
             ball.setY(_paddle->getY()+2);
@@ -52,10 +72,19 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
             continue;
         }
         ball.setX(ball.getX() + ball.getSpeed() * ball.getDirectionX());
-        ball.setY(ball.getY() + ball.getSpeed() * ball.getDirectionY());
+        ball.setY(ball.getY() + verticalNerf * ball.getSpeed() * ball.getDirectionY());
     }
+    if(highestBall<0 && _state!=won){
+        _state = lost;
+    }
+    
+
     notifyUpdate();
 };
+
+BreakoutModel::GameState BreakoutModel::getState(){
+    return _state;
+}
 
 int BreakoutModel::getScore(){
     return _score;
@@ -90,10 +119,6 @@ void BreakoutModel::checkBorder(Ball& ball){
         ball.setDirectionY(ball.getDirectionY() * -1);
     }
 
-    if(ball.getY()<0){
-        _state = lost;
-    }
-
     //Safety so that the ball doesnt bounce left and right indefinitely
     if(abs(ball.getDirectionY())<0.05){
         ball.setDirectionY(sqrt(1/10));
@@ -118,8 +143,6 @@ void BreakoutModel::reflectBall(Ball& ball, BreakoutModel::Collision collision)
     //Normalize for safety
     dot = ball.getDirectionX() * ball.getDirectionX() + ball.getDirectionY() * ball.getDirectionY();
 
-    _score = sqrt(dot)*100;
-
     ball.setDirectionX(ball.getDirectionX()/sqrt(dot));
     ball.setDirectionY(ball.getDirectionY()/sqrt(dot));
 
@@ -127,21 +150,21 @@ void BreakoutModel::reflectBall(Ball& ball, BreakoutModel::Collision collision)
 
     double remainingDist = ball.getSpeed() - collision.distance;
     ball.setX(collision.x + (remainingDist + .5) * ball.getDirectionX());
-    ball.setY(collision.y + (remainingDist + .5) * ball.getDirectionY());
+    ball.setY(collision.y + verticalNerf * (remainingDist + .5) * ball.getDirectionY());
 }
 
 BreakoutModel::Collision BreakoutModel::checkCollisionChangeState(Ball& ball)
 {
-
+    bool maybeWon = true;
     Collision nearestCollision{0,0,0,0,0,nullptr};
     for (Brick& brick : _bricks)
     {
-        
-        Collision temp = calcIntersect(ball, brick);
-        if(temp.collidedObject==nullptr){
+        if(brick.getState()==0){
             continue;
         }
-        if(brick.getState()==0){
+        maybeWon = false;
+        Collision temp = calcIntersect(ball, brick);
+        if(temp.collidedObject==nullptr){
             continue;
         }
         if (nearestCollision.collidedObject == nullptr)
@@ -155,13 +178,30 @@ BreakoutModel::Collision BreakoutModel::checkCollisionChangeState(Ball& ball)
             nearestCollision = temp;
         }
     }
+    if(maybeWon){
+        _state = won;
+    }
     if (nearestCollision.collidedObject == nullptr)
     {
         return nearestCollision;
     }
-    nearestCollision.collidedObject->handleCollision();
-    _score++;
+    int action = nearestCollision.collidedObject->handleCollision();
     reflectBall(ball, nearestCollision);
+    
+    switch (action)
+    {
+    case(1):
+        _score++;
+        break;
+    case(2):
+        break;
+    case(3):
+        _score++;
+        _balls.emplace_back(Ball{nearestCollision.x, nearestCollision.y, 0, -1, startBallSpeed});
+        break;
+    default:
+        break;
+    }
     return nearestCollision;
 }
 
