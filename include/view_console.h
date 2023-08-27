@@ -21,6 +21,8 @@ private:
     char wallTexture = 'x';  // Wall texture character
     char ballTexture = 'o';
     char brickTexture = '$';
+    char brickHitTwiceTexture = '2';
+    char brickAddBallTexture = '0';
     char paddleTexture = '_';
 
     void setup_view();  // Function to set up the view

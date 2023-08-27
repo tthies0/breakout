@@ -11,22 +11,23 @@
 
 class BreakoutModel : public Observable { // PongModel class inherits from Observable class
 public:
-
+    enum GameState{running, lost, won};
     BreakoutModel(); // constructor
 
     void simulate_game_step(Key::Action ch); // simulates one step of the Pong game
 
-    static constexpr double gameWidth = 100; // game width
-    static constexpr double gameHeight = 40; // game height
+    static constexpr double gameWidth = 80; // game width
+    static constexpr double gameHeight = 25; // game height
     static constexpr double startBallSpeed = .5; // starting speed of every ball
+    static constexpr double verticalNerf = .5; // because vertical distance between chars is bigger
 
     std::vector<Brick> getBricks();
     std::vector<Ball> getBalls();
     Paddle getPaddle();
     int getScore();
+    GameState getState();
 
 private:
-    enum GameState{running, lost, won};
     GameState _state;
     int _score = 0;
 

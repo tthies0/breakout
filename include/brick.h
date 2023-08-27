@@ -8,12 +8,13 @@ public:
     enum BrickState{broken, normal};
     Brick(double width, double height, double x, double y, double rotation, int state) : Collidable(width, height, x, y, rotation), _state(state){}; // sets width and position of brick
     
-    virtual void handleCollision();
+    virtual int handleCollision();
     int getState();
     void setState(int state);
 
 private:
-    int _state;
+    //Unfortunately enums didnt work here
+    int _state; // 0 = broken, 1 = normal, 2 = hitTwice, 3 = addBall
 };
 
 #endif //BREAKOUT_BRICK_H

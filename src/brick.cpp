@@ -9,6 +9,13 @@ void Brick::setState(int state){
     _state = state;
 }
 
-void Brick::handleCollision(){
+int Brick::handleCollision(){
+    int returnValue = 0;
+    if(_state==2){
+        _state = 1;
+        return 2;
+    }
+    returnValue = _state;
     _state = 0;
+    return returnValue;
 }

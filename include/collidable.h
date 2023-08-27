@@ -17,7 +17,7 @@ public:
     void setY(double y);
     void setRotation(double rotation);
 
-    virtual void handleCollision();
+    virtual int handleCollision();
 
 private:
     double _width;
