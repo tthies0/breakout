@@ -12,12 +12,15 @@ BreakoutModel::BreakoutModel()
 {
     _state = running;
     _paddle = new Paddle{15, 1, BreakoutModel::gameWidth / 2, 1, 0, 4};
-    Ball b{10, 10, sqrt(.25), sqrt(.75), .2};
+    Ball b{10, 10, 0, 1, 0};
     _balls.emplace_back(b);
-    Ball c{15.1, 5, sqrt(.5), sqrt(.5), .2};
-    _balls.emplace_back(c);
 
-    _bricks.emplace_back(Brick{9.9, 4.9, 40, 15, 0, 1});
+    
+    for(int i = 0; i<10; i++){
+        for(int j = 0; j<3; j++){
+           _bricks.emplace_back(Brick{4.9, 2.9, i*5, j*3+8, 0, 1}); 
+        }
+    }
     
 };
 
@@ -31,8 +34,8 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
     }
     for(Ball& ball : _balls){
         if(ball.getSpeed() == 0.){
-            ball.setX(_paddle->getX());
-            ball.setY(_paddle->getY()+1);
+            ball.setX(_paddle->getX() + _paddle->getWidth()/2);
+            ball.setY(_paddle->getY()+2);
 
             if(ch == Key::action_shoot){
                 ball.setDirectionX(0);
@@ -53,6 +56,10 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
     }
     notifyUpdate();
 };
+
+int BreakoutModel::getScore(){
+    return _score;
+}
 
 std::vector<Brick> BreakoutModel::getBricks(){
     return _bricks;
@@ -87,6 +94,13 @@ void BreakoutModel::checkBorder(Ball& ball){
         _state = lost;
     }
 
+    //Safety so that the ball doesnt bounce left and right indefinitely
+    if(abs(ball.getDirectionY())<0.05){
+        ball.setDirectionY(sqrt(1/10));
+        ball.setDirectionX(sqrt(9/10));
+    }
+
+
 }
 
 void BreakoutModel::reflectBall(Ball& ball, BreakoutModel::Collision collision)
@@ -113,15 +127,20 @@ BreakoutModel::Collision BreakoutModel::checkCollisionChangeState(Ball& ball)
     Collision nearestCollision{0,0,0,0,0,nullptr};
     for (Brick& brick : _bricks)
     {
+        
+        Collision temp = calcIntersect(ball, brick);
+        if(temp.collidedObject==nullptr){
+            continue;
+        }
         if(brick.getState()==0){
             continue;
         }
         if (nearestCollision.collidedObject == nullptr)
         {
-            nearestCollision = calcIntersect(ball, brick);
+            nearestCollision = temp;
             continue;
         }
-        Collision temp = calcIntersect(ball, brick);
+        
         if (temp.distance < nearestCollision.distance)
         {
             nearestCollision = temp;
@@ -132,6 +151,7 @@ BreakoutModel::Collision BreakoutModel::checkCollisionChangeState(Ball& ball)
         return nearestCollision;
     }
     nearestCollision.collidedObject->handleCollision();
+    _score++;
     reflectBall(ball, nearestCollision);
     return nearestCollision;
 }
@@ -193,6 +213,7 @@ BreakoutModel::Collision BreakoutModel::calcIntersect(Ball& ball, Collidable& co
         if (nearestIntersect.collidedObject == nullptr || temp.distance < nearestIntersect.distance)
         {
             nearestIntersect = temp;
+            
         }
     }
     if (nearestIntersect.collidedObject == nullptr)

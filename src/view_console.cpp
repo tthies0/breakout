@@ -31,7 +31,7 @@ void ConsoleView::update() {
         mvaddch(i, BreakoutModel::gameWidth - 1, wallTexture);
     }
     // Show points of player
-    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", 1);
+    mvprintw(1, BreakoutModel::gameWidth / 2 / 2, "%i", model->getScore());
 
     // Draw different objects.
     

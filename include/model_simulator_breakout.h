@@ -18,22 +18,24 @@ public:
 
     static constexpr double gameWidth = 100; // game width
     static constexpr double gameHeight = 20; // game height
-    static constexpr double startBallSpeed = 2; // starting speed of every ball
+    static constexpr double startBallSpeed = .5; // starting speed of every ball
 
     std::vector<Brick> getBricks();
     std::vector<Ball> getBalls();
     Paddle getPaddle();
+    int getScore();
 
 private:
     enum GameState{running, lost, won};
     GameState _state;
+    int _score = 0;
 
     struct Collision{ // A calculated Collision with a surface normal
         Collision(double x, double y, double surfaceNormalX, double surfaceNormalY, double distance, Collidable* collidedObject)
             : x(x), y(y), surfaceNormalX(surfaceNormalX), surfaceNormalY(surfaceNormalY), distance(distance), collidedObject(collidedObject){};
         double x;
         double y;
-        double surfaceNormalX; //X Part
+        double surfaceNormalX; //X Part (always normalized)
         double surfaceNormalY; //Y Part (always normalized)
         double distance;
         Collidable* collidedObject;
