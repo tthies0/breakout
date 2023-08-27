@@ -17,7 +17,7 @@ public:
     void simulate_game_step(Key::Action ch); // simulates one step of the Pong game
 
     static constexpr double gameWidth = 100; // game width
-    static constexpr double gameHeight = 20; // game height
+    static constexpr double gameHeight = 40; // game height
     static constexpr double startBallSpeed = .5; // starting speed of every ball
 
     std::vector<Brick> getBricks();

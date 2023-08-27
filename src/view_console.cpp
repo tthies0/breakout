@@ -9,12 +9,16 @@ ConsoleView::ConsoleView(BreakoutModel* model) {
 	setup_view();
 	this->model = model;
 	this->model->addObserver(this);
-    this->test = 1;
 };
 
 ConsoleView::~ConsoleView() {
     endwin();
 };
+
+void ConsoleView::setModel(BreakoutModel* model){
+    this->model = model;
+    this->model->addObserver(this);
+}
 
 void ConsoleView::update() {
 

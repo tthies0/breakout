@@ -15,12 +15,9 @@ public:
 class ConsoleController : public Controller // derive ConsoleController class from the Controller base class
 {
     BreakoutModel* model; // pointer to the BreakoutModel object
-    bool touchpad_mode;
-
-    Key::Action handleTouchpad();
 
 public:
-    ConsoleController(BreakoutModel* model, bool touchpad_mode); // constructor that takes a BreakoutModel pointer as parameter
+    ConsoleController(BreakoutModel* model); // constructor that takes a BreakoutModel pointer as parameter
 
     Key::Action getInput(); // override the getInput() function to get input from the console
 };

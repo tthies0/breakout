@@ -8,11 +8,10 @@ class ConsoleView : public Observer  // Inheriting from Observer class
 {
     BreakoutModel* model;  // Pointer variable of BreakoutModel class
 
-    int test;
-
 public:
     ConsoleView(BreakoutModel* model);  // Constructor of ConsoleView class
 
+    void setModel(BreakoutModel* model);
     virtual ~ConsoleView();  // Virtual destructor of ConsoleView class
 
     void update();  // Function to update the screen
