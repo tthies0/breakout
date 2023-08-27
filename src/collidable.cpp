@@ -32,6 +32,6 @@ void Collidable::setRotation(double rotation){
     _rotation = rotation;
 }
 
-void Collidable::handleCollision(){
-    _y++;
+int Collidable::handleCollision(){
+    return 0;
 }
