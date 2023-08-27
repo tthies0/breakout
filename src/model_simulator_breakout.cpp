@@ -18,7 +18,7 @@ BreakoutModel::BreakoutModel()
     
     for(int i = 0; i<10; i++){
         for(int j = 0; j<3; j++){
-           _bricks.emplace_back(Brick{4.9, 2.9, i*5, j*3+8, 0, 1}); 
+           _bricks.emplace_back(Brick{4.999, 2.999, i*5, j*3+8, 0, 1}); 
         }
     }
     
@@ -105,16 +105,25 @@ void BreakoutModel::checkBorder(Ball& ball){
 
 void BreakoutModel::reflectBall(Ball& ball, BreakoutModel::Collision collision)
 {
-    double dot = ball.getDirectionX() * collision.surfaceNormalX + ball.getDirectionY() * collision.surfaceNormalY;
+    //Normalize surface normal
+    double normalLength = sqrt(collision.surfaceNormalX * collision.surfaceNormalX + collision.surfaceNormalY * collision.surfaceNormalY);
+    double normalX = collision.surfaceNormalX / normalLength;
+    double normalY = collision.surfaceNormalY / normalLength;
 
-    ball.setDirectionX(ball.getDirectionX() - 2 * collision.surfaceNormalX * dot);
-    ball.setDirectionY(ball.getDirectionY() - 2 * collision.surfaceNormalY * dot);
+    double dot = ball.getDirectionX() * normalX + ball.getDirectionY() * normalY;
+
+    ball.setDirectionX(ball.getDirectionX() - 2 * normalX * dot);
+    ball.setDirectionY(ball.getDirectionY() - 2 * normalY * dot);
 
     //Normalize for safety
     dot = ball.getDirectionX() * ball.getDirectionX() + ball.getDirectionY() * ball.getDirectionY();
 
+    _score = sqrt(dot)*100;
+
     ball.setDirectionX(ball.getDirectionX()/sqrt(dot));
     ball.setDirectionY(ball.getDirectionY()/sqrt(dot));
+
+    
 
     double remainingDist = ball.getSpeed() - collision.distance;
     ball.setX(collision.x + (remainingDist + .5) * ball.getDirectionX());
