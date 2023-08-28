@@ -16,7 +16,7 @@ BreakoutModel::BreakoutModel()
     
 
     _state = running;
-    _paddle = new Paddle{30, 1, BreakoutModel::gameWidth / 2, 1, 0, 4};
+    _paddle = new Paddle{30, .2, BreakoutModel::gameWidth / 2, 1, 0, 4};
     Ball b{10, 10, 0, 1, 0};
     _balls.emplace_back(b);
 
@@ -31,7 +31,7 @@ BreakoutModel::BreakoutModel()
             if(randomFloat>.9){
                 state=2;
             }
-           _bricks.emplace_back(Brick{4.999, 2, i*5, j*3+13, 0, state}); 
+           _bricks.emplace_back(Brick{4.999, 2, (double)i*5, (double)j*3+13, 0, state}); 
         }
     }
     
@@ -39,7 +39,7 @@ BreakoutModel::BreakoutModel()
 
 void BreakoutModel::simulate_game_step(Key::Action ch)
 {
-    int highestBall = 0;
+    int highestBall = -5;
     if(_state!=running){
         return;
     }
@@ -76,8 +76,7 @@ void BreakoutModel::simulate_game_step(Key::Action ch)
     }
     if(highestBall<0 && _state!=won){
         _state = lost;
-    }
-    
+    }    
 
     notifyUpdate();
 };

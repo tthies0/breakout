@@ -19,7 +19,14 @@ class ConsoleController : public Controller // derive ConsoleController class fr
 public:
     ConsoleController(BreakoutModel* model); // constructor that takes a BreakoutModel pointer as parameter
 
+    Key::Action getBotInput(int ballX, int paddleX); // Gets the best possible move to hit the first ball back, automatic control
     Key::Action getInput(); // override the getInput() function to get input from the console
 };
+
+
+//Man könnte einen Controller auch so implementieren, dass er die Steuerung vom Trackpad weitergibt.
+//Dann würde man die Differenz zwischen dieser und dem letzten Abfrage berechnen und daraus dann entweder
+// eine Bewegung nach rechts oder nach links zurückgeben.
+
 
 #endif  // end of header guard

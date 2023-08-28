@@ -7,6 +7,8 @@
 #include "controller_console.h"
 
 int main() {
+    bool botMode = false;
+
     BreakoutModel* breakout = new BreakoutModel();
     ConsoleView* view = new ConsoleView(breakout);
     ConsoleController* controller = new ConsoleController(breakout);
@@ -16,9 +18,16 @@ int main() {
             delete breakout;
             breakout = new BreakoutModel();
             view->setModel(breakout);
+            botMode = false;
         }
 
+        if(ch==Key::action_bot){
+            botMode = !botMode;
+        }
         ch = controller->getInput();
+        if(botMode && ch==Key::no_action){
+            ch = controller->getBotInput(breakout->getBalls().at(0).getX(), breakout->getPaddle().getX()+breakout->getPaddle().getWidth()/2);
+        }
         breakout->simulate_game_step(ch);
     }
     delete breakout;

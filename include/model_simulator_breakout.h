@@ -18,7 +18,7 @@ public:
 
     static constexpr double gameWidth = 80; // game width
     static constexpr double gameHeight = 25; // game height
-    static constexpr double startBallSpeed = .5; // starting speed of every ball
+    static constexpr double startBallSpeed = 1.2; // starting speed of every ball
     static constexpr double verticalNerf = .5; // because vertical distance between chars is bigger
 
     std::vector<Brick> getBricks();

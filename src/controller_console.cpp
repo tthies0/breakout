@@ -6,6 +6,19 @@ ConsoleController::ConsoleController(BreakoutModel* model) {
 	this->model = model;
 };
 
+Key::Action ConsoleController::getBotInput(int ballX, int paddleX){
+    const int passableError = 4;
+    if(abs(ballX-paddleX)>passableError){
+        if(paddleX>ballX){
+            return Key::action_left;
+        }
+        if(paddleX<ballX){
+            return Key::action_right;
+        }
+    }
+    return Key::no_action;
+}
+
 Key::Action ConsoleController::getInput() {
     wchar_t ch = getch();
     switch (ch)
@@ -14,6 +27,8 @@ Key::Action ConsoleController::getInput() {
         return Key::action_quit;
     case 'r':
         return Key::action_restart;
+    case 'b':
+        return Key::action_bot;
     case KEY_LEFT:
         return Key::action_left;
     case KEY_RIGHT:
