@@ -1,6 +1,8 @@
 # breakout
 Final Task - Breakout
 
+### Gruppe: Torben und Justus
+
 Kompilieren : make
 Starten : ./breakout
 
@@ -14,3 +16,14 @@ Falls der Ball hinter einem Stein verschwindet sieht dass nur so aus, dass Model
 Das Spiel ist gewonnen wenn alle Steine kaputt sind
 
 Das Spiel ist verloren wenn kein Ball mehr im Spiel ist
+
+
+Überarbeitung:
+
+Wir haben jetzt 3 funktionierende (und natürlich sinnvolle) Tests hinzugefügt
+Den Makefile haben wir auch geupdatet
+
+Ausführung der Tests:
+
+1. make tests
+2. ./tests
