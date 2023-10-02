@@ -8,17 +8,21 @@ INCLUDES := -I./include -I/msys64/mingw64/include
 
 # Contains libraries we need to (-L is directory search path, -l is lib)
 LDFLAGS = -L/usr/local/lib
-LDLIBS = -lncurses
+LDLIBS = -lncurses -lboost_unit_test_framework
 
 SRCDIR := ./src
-BREAKOUT_OBJECTS := observer.o model_simulator_breakout.o controller_console.o view_console.o main.o ball.o brick.o paddle.o collidable.o
+BREAKOUT_OBJECTS := observer.o model_simulator_breakout.o controller_console.o view_console.o ball.o brick.o paddle.o collidable.o
 
-breakout: $(BREAKOUT_OBJECTS)
+breakout: $(BREAKOUT_OBJECTS) main.o
 	$(CXX) $^ -o $@ $(LDLIBS)
+    
+tests: $(BREAKOUT_OBJECTS) model_test.o
+	$(CXX) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 %.o: $(SRCDIR)/%.cpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $^ -o $@
 
 clean:
 	test ! -f breakout || rm breakout
+	test ! -f tests || rm tests
 	rm *.o
